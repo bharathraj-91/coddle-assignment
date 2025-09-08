@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "source": "WHO Child Growth Standards",
+    "chart": "Weight-for-age Birth to 5 years - Complete Dataset",
+    "units": "kg",
+    "description": "Complete LMS parameters, z-score values, and percentiles for weight-for-age in boys and girls from birth to 5 years",
+    "methodology": "LMS method with both z-score columns and direct percentile calculations",
+    "ageRange": "0-60 months",
+    "lastUpdated": "2025-09-08",
+    "dataTypes": {
+      "zScores": "Standard deviation values (-3SD to +3SD)",
+      "percentiles": "Direct percentile values (1st to 99th percentile)",
+      "lms": "L (skewness), M (median), S (coefficient of variation) parameters"
+    },
+    "sources": [
+      "Boys Z-scores PDF - https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/wfa-boys-0-5-zscores.pdf?sfvrsn=be07c977_11",
+      "Boys Percentiles PDF - https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/wfa-boys-0-5-percentiles.pdf?sfvrsn=488e74e6_11",
+      "Girls Z-scores PDF - https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/wfa-girls-0-5-zscores.pdf?sfvrsn=810222cc_11",
+      "Girls Percentiles PDF - https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/wfa-girls-0-5-percentiles.pdf?sfvrsn=1a008a84_11"
+    ]
+  },
+  "weightForAge": {
+    "male": {
+      "0": {
+        "lms": {"L": 0.3487, "M": 3.3464, "S": 0.14602},
+        "zScores": {"sd3neg": 2.1, "sd2neg": 2.5, "sd1neg": 2.9, "median": 3.3, "sd1pos": 3.9, "sd2pos": 4.4, "sd3pos": 5.0},
+        "percentiles": {"p1": 2.3, "p3": 2.5, "p5": 2.6, "p15": 2.9, "p25": 3.0, "p50": 3.3, "p75": 3.7, "p85": 3.9, "p95": 4.2, "p97": 4.3, "p99": 4.6}
+      },
+      "1": {
+        "lms": {"L": 0.2297, "M": 4.4709, "S": 0.13395},
+        "zScores": {"sd3neg": 2.9, "sd2neg": 3.4, "sd1neg": 3.9, "median": 4.5, "sd1pos": 5.1, "sd2pos": 5.8, "sd3pos": 6.6},
+        "percentiles": {"p1": 3.2, "p3": 3.4, "p5": 3.6, "p15": 3.9, "p25": 4.1, "p50": 4.5, "p75": 4.9, "p85": 5.1, "p95": 5.5, "p97": 5.7, "p99": 6.0}
+      },
+      "2": {
+        "lms": {"L": 0.1970, "M": 5.5675, "S": 0.12385},
+        "zScores": {"sd3neg": 3.8, "sd2neg": 4.3, "sd1neg": 4.9, "median": 5.6, "sd1pos": 6.3, "sd2pos": 7.1, "sd3pos": 8.0},
+        "percentiles": {"p1": 4.1, "p3": 4.4, "p5": 4.5, "p15": 4.9, "p25": 5.1, "p50": 5.6, "p75": 6.0, "p85": 6.3, "p95": 6.8, "p97": 7.0, "p99": 7.4}
+      },
+      "3": {
+        "lms": {"L": 0.1738, "M": 6.3762, "S": 0.11727},
+        "zScores": {"sd3neg": 4.4, "sd2neg": 5.0, "sd1neg": 5.7, "median": 6.4, "sd1pos": 7.2, "sd2pos": 8.0, "sd3pos": 9.0},
+        "percentiles": {"p1": 4.8, "p3": 5.1, "p5": 5.2, "p15": 5.6, "p25": 5.9, "p50": 6.4, "p75": 6.9, "p85": 7.2, "p95": 7.7, "p97": 7.9, "p99": 8.3}
+      },
+      "4": {
+        "lms": {"L": 0.1553, "M": 7.0023, "S": 0.11316},
+        "zScores": {"sd3neg": 4.9, "sd2neg": 5.6, "sd1neg": 6.2, "median": 7.0, "sd1pos": 7.8, "sd2pos": 8.7, "sd3pos": 9.7},
+        "percentiles": {"p1": 5.4, "p3": 5.6, "p5": 5.8, "p15": 6.2, "p25": 6.5, "p50": 7.0, "p75": 7.6, "p85": 7.9, "p95": 8.4, "p97": 8.6, "p99": 9.1}
+      },
+      "5": {
+        "lms": {"L": 0.1395, "M": 7.5105, "S": 0.11080},
+        "zScores": {"sd3neg": 5.3, "sd2neg": 6.0, "sd1neg": 6.7, "median": 7.5, "sd1pos": 8.4, "sd2pos": 9.3, "sd3pos": 10.4},
+        "percentiles": {"p1": 5.8, "p3": 6.1, "p5": 6.2, "p15": 6.7, "p25": 7.0, "p50": 7.5, "p75": 8.1, "p85": 8.4, "p95": 9.0, "p97": 9.2, "p99": 9.7}
+      },
+      "6": {
+        "lms": {"L": 0.1257, "M": 7.9340, "S": 0.10958},
+        "zScores": {"sd3neg": 5.7, "sd2neg": 6.4, "sd1neg": 7.1, "median": 7.9, "sd1pos": 8.8, "sd2pos": 9.8, "sd3pos": 10.9},
+        "percentiles": {"p1": 6.1, "p3": 6.4, "p5": 6.6, "p15": 7.1, "p25": 7.4, "p50": 7.9, "p75": 8.5, "p85": 8.9, "p95": 9.5, "p97": 9.7, "p99": 10.2}
+      },
+      "12": {
+        "lms": {"L": 0.0644, "M": 9.6479, "S": 0.10925},
+        "zScores": {"sd3neg": 6.9, "sd2neg": 7.7, "sd1neg": 8.6, "median": 9.6, "sd1pos": 10.8, "sd2pos": 12.0, "sd3pos": 13.3},
+        "percentiles": {"p1": 7.5, "p3": 7.8, "p5": 8.1, "p15": 8.6, "p25": 9.0, "p50": 9.6, "p75": 10.4, "p85": 10.8, "p95": 11.5, "p97": 11.8, "p99": 12.4}
+      },
+      "24": {
+        "lms": {"L": -0.0137, "M": 12.1515, "S": 0.11426},
+        "zScores": {"sd3neg": 8.6, "sd2neg": 9.7, "sd1neg": 10.8, "median": 12.2, "sd1pos": 13.6, "sd2pos": 15.3, "sd3pos": 17.1},
+        "percentiles": {"p1": 9.3, "p3": 9.8, "p5": 10.1, "p15": 10.8, "p25": 11.3, "p50": 12.2, "p75": 13.1, "p85": 13.7, "p95": 14.7, "p97": 15.1, "p99": 15.9}
+      },
+      "36": {
+        "lms": {"L": -0.0689, "M": 14.3429, "S": 0.12116},
+        "zScores": {"sd3neg": 10.0, "sd2neg": 11.3, "sd1neg": 12.7, "median": 14.3, "sd1pos": 16.2, "sd2pos": 18.3, "sd3pos": 20.7},
+        "percentiles": {"p1": 10.8, "p3": 11.4, "p5": 11.8, "p15": 12.7, "p25": 13.2, "p50": 14.3, "p75": 15.6, "p85": 16.3, "p95": 17.5, "p97": 18.0, "p99": 19.1}
+      },
+      "48": {
+        "lms": {"L": -0.1131, "M": 16.3489, "S": 0.12759},
+        "zScores": {"sd3neg": 11.2, "sd2neg": 12.7, "sd1neg": 14.4, "median": 16.3, "sd1pos": 18.6, "sd2pos": 21.2, "sd3pos": 24.2},
+        "percentiles": {"p1": 12.2, "p3": 12.9, "p5": 13.3, "p15": 14.3, "p25": 15.0, "p50": 16.3, "p75": 17.8, "p85": 18.7, "p95": 20.2, "p97": 20.9, "p99": 22.1}
+      },
+      "60": {
+        "lms": {"L": -0.1506, "M": 18.3366, "S": 0.13517},
+        "zScores": {"sd3neg": 12.4, "sd2neg": 14.1, "sd1neg": 16.0, "median": 18.3, "sd1pos": 21.0, "sd2pos": 24.2, "sd3pos": 27.9},
+        "percentiles": {"p1": 13.5, "p3": 14.3, "p5": 14.7, "p15": 16.0, "p25": 16.7, "p50": 18.3, "p75": 20.1, "p85": 21.1, "p95": 23.0, "p97": 23.8, "p99": 25.3}
+      }
+    },
+    "female": {
+      "0": {
+        "lms": {"L": 0.3809, "M": 3.2322, "S": 0.14171},
+        "zScores": {"sd3neg": 2.0, "sd2neg": 2.4, "sd1neg": 2.8, "median": 3.2, "sd1pos": 3.7, "sd2pos": 4.2, "sd3pos": 4.8},
+        "percentiles": {"p1": 2.3, "p3": 2.4, "p5": 2.5, "p15": 2.8, "p25": 2.9, "p50": 3.2, "p75": 3.6, "p85": 3.7, "p95": 4.0, "p97": 4.2, "p99": 4.4}
+      },
+      "1": {
+        "lms": {"L": 0.1714, "M": 4.1873, "S": 0.13724},
+        "zScores": {"sd3neg": 2.7, "sd2neg": 3.2, "sd1neg": 3.6, "median": 4.2, "sd1pos": 4.8, "sd2pos": 5.5, "sd3pos": 6.2},
+        "percentiles": {"p1": 3.0, "p3": 3.2, "p5": 3.3, "p15": 3.6, "p25": 3.8, "p50": 4.2, "p75": 4.6, "p85": 4.8, "p95": 5.2, "p97": 5.4, "p99": 5.7}
+      },
+      "2": {
+        "lms": {"L": 0.0962, "M": 5.1282, "S": 0.13000},
+        "zScores": {"sd3neg": 3.4, "sd2neg": 3.9, "sd1neg": 4.5, "median": 5.1, "sd1pos": 5.8, "sd2pos": 6.6, "sd3pos": 7.5},
+        "percentiles": {"p1": 3.8, "p3": 4.0, "p5": 4.1, "p15": 4.5, "p25": 4.7, "p50": 5.1, "p75": 5.6, "p85": 5.9, "p95": 6.3, "p97": 6.5, "p99": 6.9}
+      },
+      "3": {
+        "lms": {"L": 0.0402, "M": 5.8458, "S": 0.12619},
+        "zScores": {"sd3neg": 4.0, "sd2neg": 4.5, "sd1neg": 5.2, "median": 5.8, "sd1pos": 6.6, "sd2pos": 7.5, "sd3pos": 8.5},
+        "percentiles": {"p1": 4.4, "p3": 4.6, "p5": 4.7, "p15": 5.1, "p25": 5.4, "p50": 5.8, "p75": 6.4, "p85": 6.7, "p95": 7.2, "p97": 7.4, "p99": 7.8}
+      },
+      "4": {
+        "lms": {"L": -0.0050, "M": 6.4237, "S": 0.12402},
+        "zScores": {"sd3neg": 4.4, "sd2neg": 5.0, "sd1neg": 5.7, "median": 6.4, "sd1pos": 7.3, "sd2pos": 8.2, "sd3pos": 9.3},
+        "percentiles": {"p1": 4.8, "p3": 5.1, "p5": 5.2, "p15": 5.6, "p25": 5.9, "p50": 6.4, "p75": 7.0, "p85": 7.3, "p95": 7.9, "p97": 8.1, "p99": 8.6}
+      },
+      "5": {
+        "lms": {"L": -0.0430, "M": 6.8985, "S": 0.12274},
+        "zScores": {"sd3neg": 4.8, "sd2neg": 5.4, "sd1neg": 6.1, "median": 6.9, "sd1pos": 7.8, "sd2pos": 8.8, "sd3pos": 10.0},
+        "percentiles": {"p1": 5.2, "p3": 5.5, "p5": 5.6, "p15": 6.1, "p25": 6.4, "p50": 6.9, "p75": 7.5, "p85": 7.8, "p95": 8.4, "p97": 8.7, "p99": 9.2}
+      },
+      "6": {
+        "lms": {"L": -0.0756, "M": 7.2970, "S": 0.12204},
+        "zScores": {"sd3neg": 5.1, "sd2neg": 5.7, "sd1neg": 6.5, "median": 7.3, "sd1pos": 8.2, "sd2pos": 9.3, "sd3pos": 10.6},
+        "percentiles": {"p1": 5.5, "p3": 5.8, "p5": 6.0, "p15": 6.4, "p25": 6.7, "p50": 7.3, "p75": 7.9, "p85": 8.3, "p95": 8.9, "p97": 9.2, "p99": 9.7}
+      },
+      "12": {
+        "lms": {"L": -0.2024, "M": 8.9481, "S": 0.12268},
+        "zScores": {"sd3neg": 6.3, "sd2neg": 7.0, "sd1neg": 7.9, "median": 8.9, "sd1pos": 10.1, "sd2pos": 11.5, "sd3pos": 13.1},
+        "percentiles": {"p1": 6.8, "p3": 7.1, "p5": 7.3, "p15": 7.9, "p25": 8.2, "p50": 8.9, "p75": 9.7, "p85": 10.2, "p95": 11.0, "p97": 11.3, "p99": 12.0}
+      },
+      "24": {
+        "lms": {"L": -0.2941, "M": 11.4775, "S": 0.12390},
+        "zScores": {"sd3neg": 8.1, "sd2neg": 9.0, "sd1neg": 10.2, "median": 11.5, "sd1pos": 13.0, "sd2pos": 14.8, "sd3pos": 17.0},
+        "percentiles": {"p1": 8.7, "p3": 9.2, "p5": 9.4, "p15": 10.1, "p25": 10.6, "p50": 11.5, "p75": 12.5, "p85": 13.1, "p95": 14.2, "p97": 14.6, "p99": 15.5}
+      },
+      "36": {
+        "lms": {"L": -0.3201, "M": 13.8503, "S": 0.12919},
+        "zScores": {"sd3neg": 9.6, "sd2neg": 10.8, "sd1neg": 12.2, "median": 13.9, "sd1pos": 15.8, "sd2pos": 18.1, "sd3pos": 20.9},
+        "percentiles": {"p1": 10.4, "p3": 11.0, "p5": 11.3, "p15": 12.1, "p25": 12.7, "p50": 13.9, "p75": 15.1, "p85": 15.9, "p95": 17.3, "p97": 17.8, "p99": 19.0}
+      },
+      "48": {
+        "lms": {"L": -0.3361, "M": 16.0697, "S": 0.13884},
+        "zScores": {"sd3neg": 10.9, "sd2neg": 12.3, "sd1neg": 14.0, "median": 16.1, "sd1pos": 18.5, "sd2pos": 21.5, "sd3pos": 25.2},
+        "percentiles": {"p1": 11.8, "p3": 12.5, "p5": 12.9, "p15": 14.0, "p25": 14.7, "p50": 16.1, "p75": 17.7, "p85": 18.6, "p95": 20.4, "p97": 21.1, "p99": 22.6}
+      },
+      "60": {
+        "lms": {"L": -0.3518, "M": 18.2193, "S": 0.14821},
+        "zScores": {"sd3neg": 12.1, "sd2neg": 13.7, "sd1neg": 15.8, "median": 18.2, "sd1pos": 21.2, "sd2pos": 24.9, "sd3pos": 29.5},
+        "percentiles": {"p1": 13.2, "p3": 14.0, "p5": 14.4, "p15": 15.7, "p25": 16.5, "p50": 18.2, "p75": 20.2, "p85": 21.3, "p95": 23.5, "p97": 24.4, "p99": 26.3}
+      }
+    }
+  }
+}
