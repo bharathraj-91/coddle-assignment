@@ -8,10 +8,26 @@ export interface GrowthMeasurement {
   id: string;
   date: string;               // ISO date string (UTC 00:00)
   ageInDays: number;          // derived from birthDate -> date
-  weightKg: number;           // stored in SI units
-  heightCm: number;           // stored in SI units
-  headCm: number;             // stored in SI units
-  weightPercentile?: number;
-  heightPercentile?: number;
-  headPercentile?: number;
+  weightInKg: number;           // stored in SI units
+  heightInCm: number;           // stored in SI units
+  headInCm: number;             // stored in SI units
+  weightPercentile: number;
+  weightZScore: number;
+  heightPercentile: number;
+  heightZScore: number;
+  headPercentile: number;
+  headZScore: number;
+}
+
+export interface GrowthMeasurementsStore {
+  measurements: Map<string, GrowthMeasurement>;
+  sortedIds: string[];
+  addMeasurement: (measurement: GrowthMeasurement) => void;
+  updateMeasurement: (id: string, measurement: Partial<GrowthMeasurement>) => void;
+  deleteMeasurement: (id: string) => void;
+  getMeasurementById: (id: string) => GrowthMeasurement | undefined;
+  getMeasurementByDate: (date: string) => GrowthMeasurement | undefined;
+  getMeasurementsInRange: (startDate: string, endDate: string) => GrowthMeasurement[];
+  getLatestMeasurements: (count: number) => GrowthMeasurement[];
+  getAllMeasurements: () => GrowthMeasurement[];
 }
