@@ -14,6 +14,7 @@ import MeasurementField from './MeasurementField';
 import { useMeasurementValidation } from '../hooks/useMeasurementValidation';
 import useGrowthMeasurementsStore from '../stores/growthMeasurementsStore';
 import useBabyProfileStore from '../stores/babyProfileStore';
+import useToastStore from '../stores/toastStore';
 import { calculateAllMeasurements } from '../utils/whoCalculations';
 
 const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onClose }) => {
@@ -28,6 +29,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
   const { errors, validateForm, clearError, clearAllErrors } = useMeasurementValidation();
   const { getMeasurementByDate, addMeasurement, updateMeasurement } = useGrowthMeasurementsStore();
   const baby = useBabyProfileStore((state) => state.baby);
+  const { showToast } = useToastStore();
 
 
   const convertToStandardUnits = () => {
@@ -112,8 +114,10 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
 
     if (existingMeasurement && forceUpdate) {
       updateMeasurement(existingMeasurement.id, newMeasurement);
+      showToast('Measurement updated successfully', 'success');
     } else {
       addMeasurement(newMeasurement);
+      showToast('Measurement added successfully', 'success');
     }
 
     resetForm();

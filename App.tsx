@@ -8,10 +8,11 @@ import BabyProfileComponent from './components/BabyProfile';
 import MeasurementCard from './components/MeasurementCard';
 import GrowthChart from './components/GrowthChart';
 import AddMeasurementModal from './components/AddMeasurementModal';
+import withToast, { WithToastProps } from './hoc/withToast';
 import { SwipeActions } from './types/measurementCard';
 import { GrowthMeasurement } from './types/growthMeasurements';
 
-export default function App() {
+function App({ showToast }: WithToastProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const baby = useBabyProfileStore((state) => state.baby);
   const getAllMeasurements = useGrowthMeasurementsStore((state) => state.getAllMeasurements);
@@ -36,6 +37,7 @@ export default function App() {
           text: 'Delete',
           onPress: () => {
             deleteMeasurement(item.id);
+            showToast('Measurement deleted successfully', 'success');
           },
           style: 'destructive',
         },
@@ -136,3 +138,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+export default withToast(App);
