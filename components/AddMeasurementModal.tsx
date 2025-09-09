@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   View,
@@ -17,7 +17,7 @@ import useBabyProfileStore from '../stores/babyProfileStore';
 import useToastStore from '../stores/toastStore';
 import { calculateAllMeasurements } from '../utils/whoCalculations';
 
-const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onClose }) => {
+const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onClose, editingMeasurement }) => {
   const [date, setDate] = useState(new Date());
   const [weight, setWeight] = useState('');
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg');
@@ -25,8 +25,26 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
   const [heightUnit, setHeightUnit] = useState<'cm' | 'in'>('cm');
   const [headCircumference, setHeadCircumference] = useState('');
   const [headUnit, setHeadUnit] = useState<'cm' | 'in'>('cm');
+
+  const isEditMode = !!editingMeasurement;
   
   const { errors, validateForm, clearError, clearAllErrors } = useMeasurementValidation();
+
+  // Populate form with editing data
+  useEffect(() => {
+    if (editingMeasurement && visible) {
+      setDate(new Date(editingMeasurement.date));
+      setWeight(editingMeasurement.weightInKg.toString());
+      setWeightUnit('kg'); // Always use kg as it's stored in standard units
+      setHeight(editingMeasurement.heightInCm.toString());
+      setHeightUnit('cm'); // Always use cm as it's stored in standard units
+      setHeadCircumference(editingMeasurement.headInCm.toString());
+      setHeadUnit('cm'); // Always use cm as it's stored in standard units
+      clearAllErrors();
+    } else if (!editingMeasurement && visible) {
+      resetForm();
+    }
+  }, [editingMeasurement, visible]);
   const { getMeasurementByDate, addMeasurement, updateMeasurement } = useGrowthMeasurementsStore();
   const baby = useBabyProfileStore((state) => state.baby);
   const { showToast } = useToastStore();
@@ -81,33 +99,10 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
       baby.gender
     );
 
-    const existingMeasurement = getMeasurementByDate(selectedDate);
-    
-    if (existingMeasurement && !forceUpdate) {
-      Alert.alert(
-        'Measurement Exists',
-        `A measurement already exists for ${selectedDate}. Do you want to replace it?`,
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            text: 'Replace',
-            onPress: () => saveMeasurement(true),
-            style: 'destructive',
-          },
-        ]
-      );
-      return;
-    }
-
-    let newMeasurement;
-    
-    if (existingMeasurement && forceUpdate) {
-      // Keep the existing ID when updating
-      newMeasurement = {
-        id: existingMeasurement.id,
+    if (isEditMode) {
+      // In edit mode, directly update the existing measurement
+      const newMeasurement = {
+        id: editingMeasurement.id,
         date: selectedDate,
         ageInDays,
         weightInKg,
@@ -115,28 +110,67 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
         headInCm,
         ...calculations,
       };
-      updateMeasurement(existingMeasurement.id, newMeasurement);
+      updateMeasurement(editingMeasurement.id, newMeasurement);
       showToast('Measurement updated successfully', 'success');
     } else {
-      // Generate a new sequential ID for new measurements
-      const existingMeasurements = useGrowthMeasurementsStore.getState().getAllMeasurements();
-      const maxId = existingMeasurements.reduce((max, measurement) => {
-        const idNumber = parseInt(measurement.id.replace('measurement_', ''), 10);
-        return isNaN(idNumber) ? max : Math.max(max, idNumber);
-      }, -1);
-      const newId = `measurement_${maxId + 1}`;
+      // In add mode, check for duplicates
+      const existingMeasurement = getMeasurementByDate(selectedDate);
+      
+      if (existingMeasurement && !forceUpdate) {
+        Alert.alert(
+          'Measurement Exists',
+          `A measurement already exists for ${selectedDate}. Do you want to replace it?`,
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Replace',
+              onPress: () => saveMeasurement(true),
+              style: 'destructive',
+            },
+          ]
+        );
+        return;
+      }
 
-      newMeasurement = {
-        id: newId,
-        date: selectedDate,
-        ageInDays,
-        weightInKg,
-        heightInCm,
-        headInCm,
-        ...calculations,
-      };
-      addMeasurement(newMeasurement);
-      showToast('Measurement added successfully', 'success');
+      let newMeasurement;
+      
+      if (existingMeasurement && forceUpdate) {
+        // Keep the existing ID when updating
+        newMeasurement = {
+          id: existingMeasurement.id,
+          date: selectedDate,
+          ageInDays,
+          weightInKg,
+          heightInCm,
+          headInCm,
+          ...calculations,
+        };
+        updateMeasurement(existingMeasurement.id, newMeasurement);
+        showToast('Measurement updated successfully', 'success');
+      } else {
+        // Generate a new sequential ID for new measurements
+        const existingMeasurements = useGrowthMeasurementsStore.getState().getAllMeasurements();
+        const maxId = existingMeasurements.reduce((max, measurement) => {
+          const idNumber = parseInt(measurement.id.replace('measurement_', ''), 10);
+          return isNaN(idNumber) ? max : Math.max(max, idNumber);
+        }, -1);
+        const newId = `measurement_${maxId + 1}`;
+
+        newMeasurement = {
+          id: newId,
+          date: selectedDate,
+          ageInDays,
+          weightInKg,
+          heightInCm,
+          headInCm,
+          ...calculations,
+        };
+        addMeasurement(newMeasurement);
+        showToast('Measurement added successfully', 'success');
+      }
     }
 
     resetForm();
@@ -185,7 +219,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
         <View style={styles.modalContent}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Add Measurement</Text>
+            <Text style={styles.headerTitle}>{isEditMode ? 'Edit Measurement' : 'Add Measurement'}</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
@@ -199,6 +233,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
                 value={date}
                 onChange={setDate}
                 required
+                disabled={isEditMode}
               />
               
               <MeasurementField

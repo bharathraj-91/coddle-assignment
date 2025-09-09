@@ -47,17 +47,7 @@ const MeasurementCard: React.FC<MeasurementCardProps> = React.memo(({ item, swip
   const handleEdit = () => {
     // Reset swipe position
     translateX.value = withSpring(0);
-    Alert.alert(
-      'Edit Measurement',
-      `Edit measurement from ${formattedDate}?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Edit', 
-          onPress: () => swipeActions?.onEdit?.(item)
-        }
-      ]
-    );
+    swipeActions?.onEdit?.(item);
   };
 
   const handleDelete = () => {

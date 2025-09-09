@@ -14,13 +14,15 @@ interface DatePickerFieldProps {
   value: Date;
   onChange: (date: Date) => void;
   required?: boolean;
+  disabled?: boolean;
 }
 
 const DatePickerField: React.FC<DatePickerFieldProps> = ({ 
   label, 
   value, 
   onChange, 
-  required = false 
+  required = false,
+  disabled = false
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -48,8 +50,14 @@ const DatePickerField: React.FC<DatePickerFieldProps> = ({
   return (
     <View style={styles.fieldContainer}>
       <Text style={styles.fieldLabel}>{label}{required && ' *'}</Text>
-      <TouchableOpacity style={styles.dateButton} onPress={showDatepicker}>
-        <Text style={styles.dateButtonText}>{formatDate(value)}</Text>
+      <TouchableOpacity 
+        style={[styles.dateButton, disabled && styles.dateButtonDisabled]} 
+        onPress={disabled ? undefined : showDatepicker}
+        disabled={disabled}
+      >
+        <Text style={[styles.dateButtonText, disabled && styles.dateButtonTextDisabled]}>
+          {formatDate(value)}
+        </Text>
       </TouchableOpacity>
       
       {showDatePicker && (
@@ -108,6 +116,13 @@ const styles = StyleSheet.create({
   dateButtonText: {
     fontSize: 16,
     color: '#2C3E50',
+  },
+  dateButtonDisabled: {
+    backgroundColor: '#F5F5F5',
+    borderColor: '#D0D0D0',
+  },
+  dateButtonTextDisabled: {
+    color: '#999999',
   },
   datePickerOverlay: {
     flex: 1,

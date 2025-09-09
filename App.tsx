@@ -14,6 +14,7 @@ import { GrowthMeasurement } from './types/growthMeasurements';
 
 function App({ showToast }: WithToastProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [editingMeasurement, setEditingMeasurement] = useState<GrowthMeasurement | null>(null);
   const baby = useBabyProfileStore((state) => state.baby);
   const getAllMeasurements = useGrowthMeasurementsStore((state) => state.getAllMeasurements);
   const deleteMeasurement = useGrowthMeasurementsStore((state) => state.deleteMeasurement);
@@ -21,7 +22,8 @@ function App({ showToast }: WithToastProps) {
   const allMeasurements = getAllMeasurements();
   
   const handleEdit = (item: GrowthMeasurement) => {
-    Alert.alert('Edit Measurement', `Edit functionality not implemented yet for ${item.date}`);
+    setEditingMeasurement(item);
+    setModalVisible(true);
   };
 
   const handleDelete = (item: GrowthMeasurement) => {
@@ -85,7 +87,11 @@ function App({ showToast }: WithToastProps) {
         <StatusBar style="auto" />
         <AddMeasurementModal 
           visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          onClose={() => {
+            setModalVisible(false);
+            setEditingMeasurement(null);
+          }}
+          editingMeasurement={editingMeasurement}
         />
       </SafeAreaView>
     </GestureHandlerRootView>
