@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { GrowthMeasurement } from '../types/growthMeasurements';
 import { GrowthChartProps } from '../types/growthChart';
-import { getResponsivePadding, getResponsiveMargin, isSmallDevice } from '../utils/responsive';
+import { isSmallDevice } from '../utils/responsive';
 import { getWHOPercentileData, interpolatePercentileValue } from '../utils/whoGrowthData';
 import useBabyProfileStore from '../stores/babyProfileStore';
 
@@ -11,8 +11,6 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
   const baby = useBabyProfileStore((state) => state.baby);
   
   const isSmall = useMemo(() => isSmallDevice(), []);
-  const responsivePadding = useMemo(() => getResponsivePadding(), []);
-  const responsiveMargin = useMemo(() => getResponsiveMargin(), []);
 
   // Sort measurements by age for proper chart display
   const sortedMeasurements = useMemo(() => 
@@ -23,9 +21,9 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
   // Calculate chart width first
   const chartWidth = useMemo(() => {
     const screenWidth = isSmall ? 320 : 380;
-    const totalPadding = (responsivePadding + responsiveMargin) * 2;
-    return screenWidth - totalPadding;
-  }, [isSmall, responsivePadding, responsiveMargin]);
+    const minimalPadding = 16; // Very small padding on both sides
+    return screenWidth - minimalPadding;
+  }, [isSmall]);
 
   // Get WHO percentile data for weight-for-age
   const whoPercentileData = useMemo(() => {
@@ -97,11 +95,11 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
   const containerStyle = useMemo(() => [
     styles.container,
     {
-      padding: responsivePadding,
-      marginHorizontal: responsiveMargin,
+      padding: 8, // Minimal padding
+      marginHorizontal: 4, // Very small horizontal margin
       marginVertical: isSmall ? 8 : 12,
     }
-  ], [responsivePadding, responsiveMargin, isSmall]);
+  ], [isSmall]);
 
   const LegendItem = ({ color, label }: { color: string; label: string }) => (
     <View style={styles.legendItem}>
@@ -121,7 +119,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
 
   return (
     <View style={containerStyle}>
-      <Text style={styles.chartTitle}>WHO Weight-for-Age Chart</Text>
+      <Text style={styles.chartTitle}>Weight for age chart</Text>
       
       {/* Legend */}
       <View style={styles.legend}>
@@ -145,11 +143,11 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
           data3={chartData.P50}
           data4={chartData.P97}
           
-          width={chartWidth}
+          width={chartWidth - 20} // Reduce width to account for internal margins
           height={250}
-          spacing={Math.max(1, Math.floor((chartWidth - 40) / Math.max(1, chartData.babyWeight.length - 1)))}
-          initialSpacing={10}
-          endSpacing={10}
+          spacing={Math.max(1, Math.floor((chartWidth - 80) / Math.max(1, chartData.babyWeight.length - 1)))}
+          initialSpacing={15}
+          endSpacing={15}
           
           // Baby's data styling
           thickness1={3}
@@ -254,6 +252,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     paddingVertical: 10,
+    paddingHorizontal: 10, // Add horizontal padding to contain the chart
+    overflow: 'hidden', // Prevent any overflow
   },
   chartSubtitle: {
     fontSize: 12,
@@ -277,17 +277,14 @@ const styles = StyleSheet.create({
   },
   yAxisLabel: {
     position: 'absolute',
-    left: -5,
-    top: '50%',
-    transform: [{ rotate: '-90deg' }],
+    left: 12,
     zIndex: 1,
   },
   xAxisLabel: {
     alignItems: 'center',
-    marginTop: 8,
   },
   axisLabelText: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: '600',
     color: '#34495E',
   },
