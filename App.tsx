@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 import useBabyProfileStore from './stores/babyProfileStore';
 import useGrowthMeasurementsStore from './stores/growthMeasurementsStore';
 import { GrowthMeasurement } from './types/growthMeasurements';
+import BabyProfileComponent from './components/BabyProfile';
 
 const MeasurementCard = ({ item }: { item: GrowthMeasurement }) => (
   <View style={styles.measurementCard}>
@@ -22,11 +23,8 @@ export default function App() {
   
   const renderHeader = () => (
     <View style={styles.headerContent}>
-      <Text style={styles.title}>Baby Profile</Text>
-      <Text>Name: {baby?.name}</Text>
-      <Text>Gender: {baby?.gender}</Text>
-      <Text>Birth Date: {baby?.dateOfBirth.toLocaleDateString()}</Text>
-      <Text style={styles.title}>All Measurements ({allMeasurements.length})</Text>
+      {baby && <BabyProfileComponent baby={baby} />}
+      <Text style={styles.title}>Growth Measurements ({allMeasurements.length})</Text>
     </View>
   );
   
@@ -52,10 +50,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F9FA',
   },
   listContent: {
-    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   headerContent: {
     alignItems: 'center',
@@ -65,11 +63,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 15,
+    color: '#2C3E50',
   },
   measurementCard: {
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    marginVertical: 6,
+    marginHorizontal: 20,
+    borderRadius: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
 });

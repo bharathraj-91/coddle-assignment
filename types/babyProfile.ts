@@ -5,6 +5,10 @@ export interface BabyProfile {
   gender: 'male' | 'female';
 }
 
+export interface BabyProfileProps {
+  baby: BabyProfile;
+}
+
 export interface BabyProfileStore {
   baby: BabyProfile | null;
   setBaby: (baby: BabyProfile) => void;

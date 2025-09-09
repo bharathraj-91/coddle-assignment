@@ -82,3 +82,23 @@ export const convertHead = (
   // Return with 1 decimal place for inches
   return Math.round(headIn * 10) / 10;
 };
+
+export const formatAge = (ageInDays: number): string => {
+  if (ageInDays < 30) {
+    return `${ageInDays} day${ageInDays !== 1 ? 's' : ''} old`;
+  } else if (ageInDays < 365) {
+    const months = Math.floor(ageInDays / 30.44);
+    const remainingDays = Math.floor(ageInDays % 30.44);
+    if (remainingDays === 0) {
+      return `${months} month${months !== 1 ? 's' : ''} old`;
+    }
+    return `${months}m ${remainingDays}d old`;
+  } else {
+    const years = Math.floor(ageInDays / 365);
+    const remainingMonths = Math.floor((ageInDays % 365) / 30.44);
+    if (remainingMonths === 0) {
+      return `${years} year${years !== 1 ? 's' : ''} old`;
+    }
+    return `${years}y ${remainingMonths}m old`;
+  }
+};
