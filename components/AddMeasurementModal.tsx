@@ -228,6 +228,15 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
           {/* Content */}
           <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
             <View style={styles.formContainer}>
+              <View style={styles.infoContainer}>
+                <Text style={styles.infoText}>
+                  {isEditMode 
+                    ? "Update the measurements for this date. The date cannot be changed when editing."
+                    : "You can add only one measurement per day. If a measurement already exists for the selected date, you'll be asked to replace it."
+                  }
+                </Text>
+              </View>
+              
               <DatePickerField
                 label="Date"
                 value={date}
@@ -365,6 +374,19 @@ const styles = StyleSheet.create({
   formContainer: {
     padding: 20,
     minHeight: 300,
+  },
+  infoContainer: {
+    backgroundColor: '#F8F9FA',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 20,
+    borderLeftWidth: 3,
+    borderLeftColor: '#3498DB',
+  },
+  infoText: {
+    fontSize: 14,
+    color: '#5A6C7D',
+    lineHeight: 20,
   },
   footer: {
     flexDirection: 'row',
