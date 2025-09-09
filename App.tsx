@@ -24,8 +24,23 @@ export default function App() {
   };
 
   const handleDelete = (item: GrowthMeasurement) => {
-    deleteMeasurement(item.id);
-    Alert.alert('Deleted', `Measurement from ${item.date} has been deleted.`);
+    Alert.alert(
+      'Delete Measurement',
+      `Are you sure you want to delete the measurement from ${item.date}? This action cannot be undone.`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            deleteMeasurement(item.id);
+          },
+          style: 'destructive',
+        },
+      ]
+    );
   };
 
   const handleAddMeasurement = () => {
