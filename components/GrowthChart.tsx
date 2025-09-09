@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { GrowthMeasurement } from '../types/growthMeasurements';
@@ -7,8 +7,10 @@ import { isSmallDevice } from '../utils/responsive';
 import { getWHOPercentileData, interpolatePercentileValue } from '../utils/whoGrowthData';
 import useBabyProfileStore from '../stores/babyProfileStore';
 
-const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
-  const baby = useBabyProfileStore((state) => state.baby);
+const GrowthChart: React.FC<GrowthChartProps> = memo(({ measurements }) => {
+  // Only re-render when baby's name or gender changes, not the whole baby object
+  const babyName = useBabyProfileStore((state) => state.baby?.name);
+  const babyGender = useBabyProfileStore((state) => state.baby?.gender);
   
   const isSmall = useMemo(() => isSmallDevice(), []);
 
@@ -27,9 +29,9 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
 
   // Get WHO percentile data for weight-for-age
   const whoPercentileData = useMemo(() => {
-    if (!baby) return [];
-    return getWHOPercentileData(baby.gender.toUpperCase() as 'MALE' | 'FEMALE', 'WEIGHT_FOR_AGE');
-  }, [baby?.gender]);
+    if (!babyGender) return [];
+    return getWHOPercentileData(babyGender.toUpperCase() as 'MALE' | 'FEMALE', 'WEIGHT_FOR_AGE');
+  }, [babyGender]);
 
   // Prepare chart data with WHO percentiles and baby's data
   const chartData = useMemo(() => {
@@ -90,7 +92,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
       babyWeight: babyWeightData,
       groupingInterval,
     };
-  }, [whoPercentileData, sortedMeasurements, baby?.gender, chartWidth]);
+  }, [whoPercentileData, sortedMeasurements, babyGender, chartWidth]);
 
   const containerStyle = useMemo(() => [
     styles.container,
@@ -126,7 +128,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
         <LegendItem color="#FF6B6B" label="3rd %" />
         <LegendItem color="#4ECDC4" label="50th %" />
         <LegendItem color="#45B7D1" label="97th %" />
-        <LegendItem color="#96CEB4" label={baby?.name || 'Baby'} />
+        <LegendItem color="#96CEB4" label={babyName || 'Baby'} />
       </View>
 
       <View style={styles.chartContainer}>
@@ -206,7 +208,7 @@ const GrowthChart: React.FC<GrowthChartProps> = ({ measurements }) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

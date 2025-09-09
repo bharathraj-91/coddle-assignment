@@ -1,136 +1,138 @@
-* measurement input screen with add edit and delete functionality
-* data should persist locally
-* show growth charts based on available data.
-* below the growth chart show the entire history of the measurements.
-* show a edit and delete button on each measurement. preferably the slide on a measurement to show the edit and delete button.
-* write an age helper that would calculate the age in days. we can alos use a date lib for this.
-* write unit test for each of the screens.
+# Coddle - Baby Growth Tracker
 
-# TODO
+A React Native mobile application for tracking baby growth measurements and visualizing them using WHO growth standards.
 
-* Collect growth data or growth scale from WHO
-* Create a baby profile by default.
-* Sample growth measurement data model export interface GrowthMeasurement {
-  id: string;
-  date: string;               // ISO date string (UTC 00:00)
-  ageInDays: number;          // derived from birthDate -> date
-  weightKg: number;           // stored in SI units
-  heightCm: number;           // stored in SI units
-  headCm: number;             // stored in SI units
-  weightPercentile?: number;  // 0–100
-  heightPercentile?: number;
-  headPercentile?: number;
-  }
+## Tech Stack
 
-* Sample baby profile data model export interface BabyProfile {
-  id: string;
-  name: string;
-  birthDate: string;          // ISO date string
-  gender: 'male' | 'female';
-  }
+- **Framework**: React Native with Expo (SDK 53)
+- **Language**: TypeScript
+- **State Management**: Zustand
+- **Local Storage**: AsyncStorage
+- **Charts**: react-native-gifted-charts
+- **Date Picker**: @react-native-community/datetimepicker
+- **Animations**: react-native-reanimated
+- **Gesture Handling**: react-native-gesture-handler
+- **UI Components**: Custom React Native components
+- **Growth Standards**: WHO Child Growth Standards
 
-# Must Haves
+## Features
 
-* Normalize inputs to SI units for storage; convert for display.
-* Persist a schema version to enable future migrations.
+- Add, edit, and delete growth measurements (weight, height, head circumference)
+- Visual growth charts with WHO percentile curves
+- Swipe-to-reveal edit/delete actions
+- Unit conversion support (kg/lbs, cm/in)
+- Local data persistence
+- Toast notifications
+- Responsive design for different screen sizes
 
-# Components
+## Prerequisites
 
-## Date selector
-    * date picker via bottom sheet
-    * Only allow historical dates selection
-    * Future date selection should not be allowed.
-    * Have error checks for future date selection.
-    * Default to today's date.
+Before running this project, make sure you have the following installed:
 
-## Weight unit selector component
-    * Weight unit selector via bottom sheet
-    * Only allow SI units selection
-    * Default to lb/kg depending on timezone.
+- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- [Expo Go](https://expo.dev/client) app on your mobile device (for testing)
 
-## Length unit selector component
-    * Height unit selector via bottom sheet
-    * Only allow SI units selection
-    * Default to cm/in depending on timezone.
+For iOS development:
+- [Xcode](https://developer.apple.com/xcode/) (macOS only)
 
-## Weigth selector component
-    * Weight selector via bottom sheet
-    * Only allow weight percentile selection
-    * Default to average weight based on age calculation.
-    * weights should be stored in SI units.
-    * weights should change based on unit selection.
-    * when user tries to save a measurement for weight we need to make sure that we only save one weight entry per day. so we will need to overwrite.
-    * show a friendly user message asking for confirmation on overwrite. and notify that they can save only one record per day for accurate tracking.
+For Android development:
+- [Android Studio](https://developer.android.com/studio)
+- Android SDK
 
-## Height selector component
-    * Height selector via bottom sheet
-    * Only allow height percentile selection
-    * Default to average height based on age calculation.
-    * heights should be stored in SI units.
-    * heights should change based on unit selection.
-    * when user tries to save a measurement for height we need to make sure that we only save one height entry per day. so we will need to overwrite.
-    * show a friendly user message asking for confirmation on overwrite. and notify that they can save only one record per day for accurate tracking.
+## Installation
 
-## Head circumference selector component
-    * Head circumference selector via bottom sheet
-    * Only allow head circumference percentile selection
-    * Default to average head circumference based on age calculation.
-    * head circumference should be stored in SI units.
-    * head circumference should change based on unit selection.
-    * when user tries to save a measurement for head cirdumference we need to make sure that we only save one  head cirdumference measurement entry per day. so we will need to overwrite.
-    * show a friendly user message asking for confirmation on overwrite. and notify that they can save only one record per day for accurate tracking.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd coddle
+```
 
-## Age calculator component
-    * Calculate age based on birth date and current date.
-    * Age should always be measured in days.
-    * Handle leap years.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Toast component
-    * Snackbar component should be a HOC.
-    * Use snackbar for messages.
-    * Show friendly messages for error, success and warning.
-    * Use colors for different types of messages.
+3. Start the development server:
+```bash
+npm start
+# or
+expo start
+```
 
-## Growth chart component
-    * Show growth chart based on available data.
+## Available Scripts
 
-## Growth history component
-    * Show entire history of the measurements.
-    * Show edit and delete buttons on each measurement.
-    * Slide on a measurement to show the edit and delete button.
-    * Deletion should happen only based on user confirmation. for this we will use a dialog.
-    * The history should be shown in a cronological order. newest to latest.
-    * Make sure to use the utils file to handle metric conversions
+- `npm start` - Start the Expo development server
+- `npm run android` - Start the app on Android device/emulator
+- `npm run ios` - Start the app on iOS device/simulator
+- `npm run web` - Start the app in web browser
+- `npm run dev` - Start with development client
+- `npm run tunnel` - Start with tunnel connection
+- `npm run clear` - Start with cleared cache
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
+- `npm run test` - Run tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Run tests with coverage report
 
-## Dialog component
-    * Show a dialog with a message.
-    * Have tow buttons. cancel is one and the other one will come in as a Prop. we should map the prop to default button states inside the component for consistency sakes.
+## Project Structure
 
-# Services
+```
+coddle/
+├── components/          # Reusable UI components
+├── stores/             # Zustand state management
+├── types/              # TypeScript type definitions
+├── utils/              # Helper functions and utilities
+├── hoc/                # Higher-Order Components
+├── hooks/              # Custom React hooks
+├── assets/             # Images and static assets
+├── App.tsx             # Main application component
+└── package.json        # Dependencies and scripts
+```
 
-## Async storage service
-    * ALL AsyncStorage interatction code should be placed here.
-    * All CRUD operations should be handled here.
-    * It should not contain any business logic.
+## Development
 
-## Service file
-    * All service related code should be placed here.
-    * It can have the business logic if needed.
+1. **Running on Physical Device**:
+   - Install Expo Go app from App Store (iOS) or Play Store (Android)
+   - Scan the QR code displayed in the terminal or browser
+   - The app will load on your device
 
-## Utils file
-    * All utility functions should be placed here.
-    * Height conversion methods.
-    * Weight conversion methods.
-    * Head circumference conversion methods.
-    * Age calculation methods.
-        Transform age in days to months (with decimal precision)
-        Handle edge cases where exact month data isn't available
-    * Percentile calculation methods.
-        use LMS parameters to calculate precise percentiles using the LMS formula
+2. **Running on Simulator/Emulator**:
+   - For iOS: Press `i` in the terminal or click "Run on iOS simulator"
+   - For Android: Press `a` in the terminal or click "Run on Android device/emulator"
 
-# Data Source
-https://www.who.int/tools/child-growth-standards/standards/weight-for-age
+3. **Development Tips**:
+   - Hot reloading is enabled by default
+   - Shake your device or press `Cmd+D` (iOS) / `Cmd+M` (Android) to access developer menu
+   - Use `console.log()` for debugging - logs appear in the terminal
 
+## Building for Production
 
+1. **Android APK**:
+```bash
+npm run build:android
+```
 
+2. **iOS IPA**:
+```bash
+npm run build:ios
+```
 
+3. **Web Build**:
+```bash
+npm run build:web
+```
+
+## Data Storage
+
+The app uses AsyncStorage for local data persistence. All growth measurements and baby profile data are stored locally on the device.
+
+## WHO Growth Standards
+
+The app implements WHO Child Growth Standards for:
+- Weight-for-age percentiles
+- Height-for-age percentiles  
+- Head circumference-for-age percentiles
+
+Growth charts display 3rd, 50th, and 97th percentiles alongside the baby's actual measurements.
