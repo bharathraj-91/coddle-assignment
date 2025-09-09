@@ -6,11 +6,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { AddMeasurementModalProps } from '../types/addMeasurementModal';
 import DatePickerField from './DatePickerField';
 import MeasurementField from './MeasurementField';
 import { useMeasurementValidation } from '../hooks/useMeasurementValidation';
+import useGrowthMeasurementsStore from '../stores/growthMeasurementsStore';
+import useBabyProfileStore from '../stores/babyProfileStore';
+import { calculateAllMeasurements } from '../utils/whoCalculations';
 
 const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onClose }) => {
   const [date, setDate] = useState(new Date());
@@ -22,7 +26,99 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
   const [headUnit, setHeadUnit] = useState<'cm' | 'in'>('cm');
   
   const { errors, validateForm, clearError, clearAllErrors } = useMeasurementValidation();
+  const { getMeasurementByDate, addMeasurement, updateMeasurement } = useGrowthMeasurementsStore();
+  const baby = useBabyProfileStore((state) => state.baby);
 
+
+  const convertToStandardUnits = () => {
+    // Convert weight to kg
+    let weightInKg = parseFloat(weight);
+    if (weightUnit === 'lbs') {
+      weightInKg = weightInKg * 0.453592;
+    }
+
+    // Convert height to cm
+    let heightInCm = parseFloat(height);
+    if (heightUnit === 'in') {
+      heightInCm = heightInCm * 2.54;
+    }
+
+    // Convert head circumference to cm
+    let headInCm = parseFloat(headCircumference);
+    if (headUnit === 'in') {
+      headInCm = headInCm * 2.54;
+    }
+
+    return {
+      weightInKg: parseFloat(weightInKg.toFixed(2)),
+      heightInCm: parseFloat(heightInCm.toFixed(1)),
+      headInCm: parseFloat(headInCm.toFixed(1)),
+    };
+  };
+
+  const saveMeasurement = (forceUpdate = false) => {
+    const selectedDate = date.toISOString().split('T')[0];
+    const { weightInKg, heightInCm, headInCm } = convertToStandardUnits();
+
+    if (!baby) {
+      Alert.alert('Error', 'Baby profile not found. Please check your baby profile settings.');
+      return;
+    }
+
+    // Calculate age in days from baby's birth date
+    const birthDate = new Date(baby.dateOfBirth);
+    const measurementDate = new Date(selectedDate);
+    const ageInDays = Math.floor((measurementDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Calculate WHO percentiles and z-scores
+    const calculations = calculateAllMeasurements(
+      weightInKg,
+      heightInCm,
+      headInCm,
+      ageInDays,
+      baby.gender
+    );
+
+    const newMeasurement = {
+      id: `measurement_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+      date: selectedDate,
+      ageInDays,
+      weightInKg,
+      heightInCm,
+      headInCm,
+      ...calculations,
+    };
+
+    const existingMeasurement = getMeasurementByDate(selectedDate);
+    
+    if (existingMeasurement && !forceUpdate) {
+      Alert.alert(
+        'Measurement Exists',
+        `A measurement already exists for ${selectedDate}. Do you want to replace it?`,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Replace',
+            onPress: () => saveMeasurement(true),
+            style: 'destructive',
+          },
+        ]
+      );
+      return;
+    }
+
+    if (existingMeasurement && forceUpdate) {
+      updateMeasurement(existingMeasurement.id, newMeasurement);
+    } else {
+      addMeasurement(newMeasurement);
+    }
+
+    resetForm();
+    onClose();
+  };
 
   const handleSave = () => {
     if (!validateForm({
@@ -36,20 +132,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
       return;
     }
 
-    // TODO: Implement save functionality with the form data
-    console.log({
-      date: date.toISOString().split('T')[0],
-      weight: parseFloat(weight),
-      weightUnit,
-      height: parseFloat(height),
-      heightUnit,
-      headCircumference: parseFloat(headCircumference),
-      headUnit,
-    });
-    
-    // Reset form
-    resetForm();
-    onClose();
+    saveMeasurement();
   };
 
   const resetForm = () => {
