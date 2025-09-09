@@ -73,10 +73,10 @@ export const getResponsiveValue = <T>(values: {
 // Common responsive utilities
 export const getResponsivePadding = (): number => {
   return getResponsiveValue({
-    small: 12,
-    medium: 16,
-    large: 20,
-    default: 16,
+    small: 10,
+    medium: 12,
+    large: 14,
+    default: 12,
   });
 };
 
