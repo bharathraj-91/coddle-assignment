@@ -78,7 +78,6 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
 
   const saveMeasurement = (forceUpdate = false) => {
     const selectedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-      console.log("##########", selectedDate, date)
     const { weightInKg, heightInCm, headInCm } = convertToStandardUnits();
 
     if (!baby) {
