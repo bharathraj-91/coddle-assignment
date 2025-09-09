@@ -243,6 +243,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
                 onChange={setDate}
                 required
                 disabled={isEditMode}
+                minimumDate={baby ? new Date(baby.dateOfBirth) : undefined}
               />
               
               <MeasurementField

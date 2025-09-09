@@ -15,6 +15,7 @@ interface DatePickerFieldProps {
   onChange: (date: Date) => void;
   required?: boolean;
   disabled?: boolean;
+  minimumDate?: Date;
 }
 
 const DatePickerField: React.FC<DatePickerFieldProps> = ({ 
@@ -22,7 +23,8 @@ const DatePickerField: React.FC<DatePickerFieldProps> = ({
   value, 
   onChange, 
   required = false,
-  disabled = false
+  disabled = false,
+  minimumDate
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -31,6 +33,10 @@ const DatePickerField: React.FC<DatePickerFieldProps> = ({
       setShowDatePicker(false);
     }
     if (selectedDate && selectedDate <= new Date()) {
+      // Additional validation for minimum date
+      if (minimumDate && selectedDate < minimumDate) {
+        return; // Don't allow dates before minimum date
+      }
       onChange(selectedDate);
     }
   };
@@ -84,6 +90,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = ({
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 onChange={handleDateChange}
                 maximumDate={new Date()}
+                minimumDate={minimumDate}
                 style={styles.datePickerWheel}
               />
             </View>
