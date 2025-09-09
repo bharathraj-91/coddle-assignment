@@ -5,6 +5,7 @@ import useBabyProfileStore from './stores/babyProfileStore';
 import useGrowthMeasurementsStore from './stores/growthMeasurementsStore';
 import BabyProfileComponent from './components/BabyProfile';
 import MeasurementCard from './components/MeasurementCard';
+import GrowthChart from './components/GrowthChart';
 import { SwipeActions } from './types/measurementCard';
 import { GrowthMeasurement } from './types/growthMeasurements';
 
@@ -32,6 +33,7 @@ export default function App() {
   const renderHeader = () => (
     <View style={styles.headerContent}>
       {baby && <BabyProfileComponent baby={baby} />}
+      {allMeasurements.length > 0 && <GrowthChart measurements={allMeasurements} />}
       <Text style={styles.title}>Growth Measurements ({allMeasurements.length})</Text>
     </View>
   );
