@@ -81,16 +81,6 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
       baby.gender
     );
 
-    const newMeasurement = {
-      id: `measurement_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
-      date: selectedDate,
-      ageInDays,
-      weightInKg,
-      heightInCm,
-      headInCm,
-      ...calculations,
-    };
-
     const existingMeasurement = getMeasurementByDate(selectedDate);
     
     if (existingMeasurement && !forceUpdate) {
@@ -112,10 +102,39 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
       return;
     }
 
+    let newMeasurement;
+    
     if (existingMeasurement && forceUpdate) {
+      // Keep the existing ID when updating
+      newMeasurement = {
+        id: existingMeasurement.id,
+        date: selectedDate,
+        ageInDays,
+        weightInKg,
+        heightInCm,
+        headInCm,
+        ...calculations,
+      };
       updateMeasurement(existingMeasurement.id, newMeasurement);
       showToast('Measurement updated successfully', 'success');
     } else {
+      // Generate a new sequential ID for new measurements
+      const existingMeasurements = useGrowthMeasurementsStore.getState().getAllMeasurements();
+      const maxId = existingMeasurements.reduce((max, measurement) => {
+        const idNumber = parseInt(measurement.id.replace('measurement_', ''), 10);
+        return isNaN(idNumber) ? max : Math.max(max, idNumber);
+      }, -1);
+      const newId = `measurement_${maxId + 1}`;
+
+      newMeasurement = {
+        id: newId,
+        date: selectedDate,
+        ageInDays,
+        weightInKg,
+        heightInCm,
+        headInCm,
+        ...calculations,
+      };
       addMeasurement(newMeasurement);
       showToast('Measurement added successfully', 'success');
     }

@@ -63,18 +63,7 @@ const MeasurementCard: React.FC<MeasurementCardProps> = React.memo(({ item, swip
   const handleDelete = () => {
     // Reset swipe position
     translateX.value = withSpring(0);
-    Alert.alert(
-      'Delete Measurement',
-      `Are you sure you want to delete the measurement from ${formattedDate}?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Delete', 
-          style: 'destructive',
-          onPress: () => swipeActions?.onDelete?.(item)
-        }
-      ]
-    );
+    swipeActions?.onDelete?.(item);
   };
 
   // Gesture handlers
