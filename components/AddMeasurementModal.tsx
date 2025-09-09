@@ -33,7 +33,7 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
   // Populate form with editing data
   useEffect(() => {
     if (editingMeasurement && visible) {
-      setDate(new Date(editingMeasurement.date));
+      setDate(new Date(editingMeasurement.date + 'T00:00:00'));
       setWeight(editingMeasurement.weightInKg.toString());
       setWeightUnit('kg'); // Always use kg as it's stored in standard units
       setHeight(editingMeasurement.heightInCm.toString());
@@ -77,7 +77,8 @@ const AddMeasurementModal: React.FC<AddMeasurementModalProps> = ({ visible, onCl
   };
 
   const saveMeasurement = (forceUpdate = false) => {
-    const selectedDate = date.toISOString().split('T')[0];
+    const selectedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      console.log("##########", selectedDate, date)
     const { weightInKg, heightInCm, headInCm } = convertToStandardUnits();
 
     if (!baby) {

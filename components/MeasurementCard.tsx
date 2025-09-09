@@ -26,7 +26,8 @@ const MeasurementCard: React.FC<MeasurementCardProps> = React.memo(({ item, swip
   const formattedAge = useMemo(() => formatAge(item.ageInDays), [item.ageInDays]);
   
   const formattedDate = useMemo(() => {
-    const date = new Date(item.date);
+    console.log("!!!!!!!!", item.date)
+    const date = new Date(item.date + 'T00:00:00');
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
