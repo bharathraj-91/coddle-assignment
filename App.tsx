@@ -1,15 +1,18 @@
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import useBabyProfileStore from './stores/babyProfileStore';
 import useGrowthMeasurementsStore from './stores/growthMeasurementsStore';
 import BabyProfileComponent from './components/BabyProfile';
 import MeasurementCard from './components/MeasurementCard';
 import GrowthChart from './components/GrowthChart';
+import AddMeasurementModal from './components/AddMeasurementModal';
 import { SwipeActions } from './types/measurementCard';
 import { GrowthMeasurement } from './types/growthMeasurements';
 
 export default function App() {
+  const [modalVisible, setModalVisible] = useState(false);
   const baby = useBabyProfileStore((state) => state.baby);
   const getAllMeasurements = useGrowthMeasurementsStore((state) => state.getAllMeasurements);
   const deleteMeasurement = useGrowthMeasurementsStore((state) => state.deleteMeasurement);
@@ -25,6 +28,10 @@ export default function App() {
     Alert.alert('Deleted', `Measurement from ${item.date} has been deleted.`);
   };
 
+  const handleAddMeasurement = () => {
+    setModalVisible(true);
+  };
+
   const swipeActions: SwipeActions = {
     onEdit: handleEdit,
     onDelete: handleDelete,
@@ -34,7 +41,12 @@ export default function App() {
     <View style={styles.headerContent}>
       {baby && <BabyProfileComponent baby={baby} />}
       {allMeasurements.length > 0 && <GrowthChart measurements={allMeasurements} />}
-      <Text style={styles.title}>Growth Measurements ({allMeasurements.length})</Text>
+      <View style={styles.titleRow}>
+        <Text style={styles.title}>Growth Measurements ({allMeasurements.length})</Text>
+        <TouchableOpacity style={styles.addButton} onPress={handleAddMeasurement}>
+          <Text style={styles.addButtonText}>Add</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
   
@@ -54,6 +66,10 @@ export default function App() {
           removeClippedSubviews={true}
         />
         <StatusBar style="auto" />
+        <AddMeasurementModal 
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+        />
       </SafeAreaView>
     </GestureHandlerRootView>
   );
@@ -72,9 +88,36 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 15,
     color: '#2C3E50',
+    flex: 1,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  addButton: {
+    backgroundColor: '#3498DB',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  addButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
